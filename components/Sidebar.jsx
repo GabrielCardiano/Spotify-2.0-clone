@@ -12,7 +12,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react';
 import SpotifyIcon from './SpotifyIcon';
 
-function Sidebar() {
+function Sidebar({ view, setView, setGlobalPlayListID }) {
   const { data: session } = useSession();
   const [playlist, setPlaylist] = useState([]);
 
@@ -54,12 +54,20 @@ function Sidebar() {
         <p>Home</p>
       </button>
 
-      <button className='flex items-center space-x-2 hover:text-white'>
+      <button
+        className={`flex items-center space-x-2 hover:text-white 
+        ${view === 'search' ? 'text-white' : null}`}
+        onClick={() => setView('search')}
+      >
         <MagnifyingGlassIcon className="w-5 h-5" />
         <p>Search</p>
       </button>
 
-      <button className='flex items-center space-x-2 hover:text-white'>
+      <button
+        className={`flex items-center space-x-2 hover:text-white 
+        ${view === 'library' ? 'text-white' : null}`}
+        onClick={() => setView('library')}
+      >
         <BuildingLibraryIcon className="w-5 h-5" />
         <p>Your Library</p>
       </button>
@@ -83,8 +91,16 @@ function Sidebar() {
       <hr className='border-t-[1px] border-gray-900' />
 
       {
-        playlist.map((pl) => (
-          <p key={pl.id} className='cursor-pointer hover:text-white'>{pl.name}</p>
+        playlist && playlist.map((pl) => (
+          <p
+            key={pl.id}
+            className='cursor-pointer hover:text-white'
+            onClick={() => { 
+              setView('playlist');
+              setGlobalPlayListID(pl.id)
+             }}
+          >{pl.name}
+          </p>
         ))
       }
     </div>
