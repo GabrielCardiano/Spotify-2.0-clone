@@ -1,11 +1,12 @@
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import { useSession } from "next-auth/react"
 
 export default function Home() {
+  // const { data: session } = useSession();
+  // console.log(session.user.accessToken);
+  
   return (
     <main className=''>
       A wizard is never late
     </main>
-   )
+  )
 }
