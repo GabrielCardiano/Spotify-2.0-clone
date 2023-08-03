@@ -18,7 +18,7 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
   return (
     <div
       className="w-64 h-screen text-neutral-400 grow-0 shrink-0
-       overflow-y-scroll border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
+       overflow-y-scroll scrollbar-hide border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
       </div>
@@ -72,8 +72,16 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       </button>
       <hr className='border-t-[1px] border-gray-900' />
 
-      {
-        playlists.map((playlist) => (
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+      <div>PLaylist name...</div>
+
+      {/* {
+        playlists?.map((playlist) => (
           <p
             key={playlist.id}
             className='cursor-pointer hover:text-white w-52'
@@ -84,7 +92,7 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
           >{playlist.name}
           </p>
         ))
-      }
+      } */}
     </div>
   )
 }
