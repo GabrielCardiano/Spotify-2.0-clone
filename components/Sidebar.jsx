@@ -1,14 +1,13 @@
 import {
-  HomeIcon,
-  MagnifyingGlassIcon,
+  ArrowLeftOnRectangleIcon,
   BuildingLibraryIcon,
   HeartIcon,
-  RssIcon,
+  HomeIcon,
+  MagnifyingGlassIcon,
   PlusCircleIcon,
-  ArrowLeftOnRectangleIcon,
-} from '@heroicons/react/24/outline'
-import Spotify from 'next-auth/providers/spotify';
-import { useSession } from 'next-auth/react'
+  RssIcon,
+} from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import SpotifyIcon from './SpotifyIcon';
 
@@ -36,7 +35,7 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
   return (
     <div
       className="w-64 h-screen text-neutral-400 grow-0 shrink-0
-       overflow-y-scroll border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm">
+       overflow-y-scroll border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
       </div>
@@ -91,16 +90,16 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       <hr className='border-t-[1px] border-gray-900' />
 
       {
-        playlist && playlist.map((pl) => (
-          <p
+       playlist && playlist.map((pl) => (
+          <button
             key={pl.id}
-            className='cursor-pointer hover:text-white'
-            onClick={() => { 
+            className='cursor-pointer hover:text-white w-52'
+            onClick={() => {
               setView('playlist');
               setGlobalPlayListID(pl.id)
-             }}
+            }}
           >{pl.name}
-          </p>
+          </button>
         ))
       }
     </div>
