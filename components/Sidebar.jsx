@@ -7,30 +7,13 @@ import {
   PlusCircleIcon,
   RssIcon,
 } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
+import { useState } from 'react';
 import SpotifyIcon from './SpotifyIcon';
 
 function Sidebar({ view, setView, setGlobalPlayListID }) {
-  const { data: session } = useSession();
-  const [playlist, setPlaylist] = useState([]);
-
-  useEffect(() => {
-    async function saveToken() {
-      if (session && session.accessToken) {
-        const response = await fetch('https://api.spotify.com/v1/me/playlists', {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          }
-        });
-
-        const data = await response.json();
-        setPlaylist(data.items);
-      };
-    };
-    saveToken();
-
-  }, [session]);
+  const { data: session, status } = useSession();
+  const [playlists, setPlaylists] = useState([]);
 
   return (
     <div
@@ -41,7 +24,7 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       </div>
       <button
         className='flex items-center space-x-2 hover:text-white'
-      // onClick={() => signOut()}
+        onClick={ () => signOut()}
       >
         <ArrowLeftOnRectangleIcon className="w-5 h-5" />
 
@@ -90,16 +73,16 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       <hr className='border-t-[1px] border-gray-900' />
 
       {
-       playlist && playlist.map((pl) => (
-          <button
-            key={pl.id}
+        playlists.map((playlist) => (
+          <p
+            key={playlist.id}
             className='cursor-pointer hover:text-white w-52'
             onClick={() => {
               setView('playlist');
-              setGlobalPlayListID(pl.id)
+              setGlobalPlayListID(playlist.id)
             }}
-          >{pl.name}
-          </button>
+          >{playlist.name}
+          </p>
         ))
       }
     </div>

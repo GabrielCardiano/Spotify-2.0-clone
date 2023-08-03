@@ -1,45 +1,31 @@
 import NextAuth from "next-auth/next";
 import SpotifyProvider from "next-auth/providers/spotify";
-import fetch from "node-fetch";
-
-const scopes = [
-  "user-read-email",
-  "playlist-read-private",
-  "playlist-read-collaborative",
-  "user-read-currently-playing",
-  "user-modify-playback-state",
-].join(',');
-
-const params = {
-  scope: scopes,
-};
-
-const queryParamString = new URLSearchParams(params);
-
-const LOGIN_URL = `https://accounts.spotify.com/authorize?${queryParamString.toString()}`;
+import spotifyApi, { LOGIN_URL } from "@/lib/Spotify";
 
 async function refreshAccessToken(token) {
-  // refreshing access code expired
-  const params = new URLSearchParams(params);
-  params.append('grant_type', 'refresh_token');
-  params.append('refresh_token', token.refreshToken);
+  try {
+    spotifyApi.setAccessToken(token.accessToken);
+    spotifyApi.setRefreshToken(token.refreshToken);
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + (new Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64'))
-    },
-    body: params,
-  })
-  const data = await response.json();
-  return {
-    accessToken: data.accessToken,
-    refreshToken: data.refreshToken ?? token.refreshToken,
-    accessTokenExpires: Date.now() + data.expires_in * 1000,
+    const { body: refreshedToken } = await spotifyApi.refreshAccessToken();
+    console.log("REFRESHED TOKEN IS", refreshedToken);
+
+    return {
+      ...token,
+      accessToken: refreshedToken.access_token,
+      accessTokenExpires: Date.now + refreshedToken.expires_in * 1000, // = 1 hour as 3600 returns from spotify API
+      refreshToken: refreshedToken.refresh_token ?? token.refreshToken, // Replace if receive a new refreshedToken, otherwise use the old refresToken
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    }
   }
-
 }
-
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -56,13 +42,21 @@ export const authOptions = {
     signIn: "/login"
   },
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       // Persist the OAuth access_token to the token right after signin
       // Case is the initial sign in
-      if (account) {
-        token.accessToken = account.access_token;
-        token.refreshToken = account.refresh_token;
-        token.accessTokenExpires = account.expires_at;
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          userName: account.providerAccountId,
+          accessTokenExpires: account.expires_at * 1000, // time in miliseconds
+        };
+      }
+      // Case access token has not yet expired return previous token
+      if (Date.now() < token.accessTokenExpires) {
+        console.log('Valid Access Token');
         return token;
       }
 
