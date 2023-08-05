@@ -27,12 +27,9 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
     }
   }, [session, spotifyApi])
 
-  // className="w-64 h-screen text-neutral-400 grow-0 shrink-0
-  // overflow-y-scroll scrollbar-hide border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
-
   return (
     <div
-      className="flex-col text-neutral-400 p-5 grow-0 text-xs lg:text-sm overflow-y-scroll scrollbar-hide 
+      className="bg-card m-2 rounded-lg flex-col  text-neutral-400 p-5 grow-0 text-xs lg:w-96 lg:text-sm  overflow-y-scroll scrollbar-hide 
       border-r border-neutral-800 sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex space-y-4">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
@@ -87,14 +84,16 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       </button>
       <hr className='border-t-[1px] border-gray-900' />
 
-      {playlists?.map((playlist) => (
-        <p
-          key={playlist.id}
-          className='cursor-pointer hover:text-white w-52'
-          onClick={() => setPLaylistID(playlist.id)}
-        >{playlist.name}
-        </p>
-      ))}
+      <section className="space-y-4 overflow-y-scroll scrollbar-hide">
+        {playlists?.map((playlist) => (
+          <p
+            key={playlist.id}
+            className='cursor-pointer hover:text-white lg:w-52 truncate'
+            onClick={() => setPLaylistID(playlist.id)}
+          >{playlist.name}
+          </p>
+        ))}
+      </section>
     </div>
   )
 }

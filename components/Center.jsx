@@ -37,7 +37,7 @@ function Center() {
 
 
   return (
-    <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
+    <div className="bg-card my-2 rounded-lg flex-grow h-screen overflow-y-scroll scrollbar-hide">
 
       <header className="absolute top-5 right-8">
         <div className="flex items-center bg-black space-x-3 opacity-90 hover:opacity-80
@@ -51,7 +51,7 @@ function Center() {
         </div>
       </header>
 
-      <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80 text-white p-8`}>
+      <section className={`flex items-end space-x-7 bg-gradient-to-b from ${color} to-bg-card h-80 text-white p-8`}>
         <img
           src={playlist?.images?.[0]?.url}
           alt="playlist-picture"
