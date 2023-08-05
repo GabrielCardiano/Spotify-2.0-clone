@@ -20,8 +20,6 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
   const [playlists, setPlaylists] = useState([]);
   const [playlistID, setPLaylistID] = useRecoilState(playlistIdState);
 
-  console.log(playlistID);
-
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
       spotifyApi.getUserPlaylists()
@@ -29,10 +27,13 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
     }
   }, [session, spotifyApi])
 
+  // className="w-64 h-screen text-neutral-400 grow-0 shrink-0
+  // overflow-y-scroll scrollbar-hide border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
+
   return (
     <div
-      className="w-64 h-screen text-neutral-400 grow-0 shrink-0
-       overflow-y-scroll scrollbar-hide border-r border-neutral-800 flex flex-col p-5 space-y-4 text-sm hidden md:inline-flex">
+      className="flex-col text-neutral-400 p-5 grow-0 text-xs lg:text-sm overflow-y-scroll scrollbar-hide 
+      border-r border-neutral-800 sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex space-y-4">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
       </div>
