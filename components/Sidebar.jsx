@@ -30,7 +30,7 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
   return (
     <div
       className="bg-card m-2 rounded-lg flex-col  text-neutral-400 p-5 grow-0 text-xs lg:w-96 lg:text-sm  overflow-y-scroll scrollbar-hide 
-      border-r border-neutral-800 sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex space-y-4">
+      border-r border-neutral-800 sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex space-y-4 ">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
       </div>

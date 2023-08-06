@@ -5,4 +5,13 @@
 body {
     background-color: #000;
     color: #fff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@layer components {
+    .button {
+        @apply h-7 w-7 cursor-pointer hover:scale-125 transition transform duration-100 ease-out;
+    }
 }
