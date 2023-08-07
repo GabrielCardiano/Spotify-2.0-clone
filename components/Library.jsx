@@ -41,7 +41,7 @@ function Library() {
         <ChevronDownIcon className="h-5 w-5" />
       </div>
 
-      <div className="flex flex-col gap-4 px-8 h-screen overflow-y-scroll scrollbar-hide">
+      <div className="flex flex-col gap-4 px-8 h-screen overflow-y-scroll">
         <h2 className="text-xl font-bold">Playlists</h2>
         <div className="flex flex-wrap gap-9 mb-48">
 

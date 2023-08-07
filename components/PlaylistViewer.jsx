@@ -37,7 +37,7 @@ function PlaylistViewer() {
 
 
   return (
-    <div className="bg-card my-2 mr-2 rounded-lg flex-grow h-screen overflow-y-scroll scrollbar-hide">
+    <div className="bg-card my-2 mr-2 rounded-lg flex-grow h-screen overflow-y-scroll">
 
       <header className="absolute top-5 right-8">
         <div className="flex items-center bg-black space-x-3 opacity-90 hover:opacity-80

@@ -34,7 +34,7 @@ function Sidebar() {
 
   return (
     <div
-      className="bg-card m-2 rounded-lg flex-col  text-neutral-400 p-5 grow-0 text-xs lg:w-96 lg:text-sm  overflow-y-scroll scrollbar-hide 
+      className="bg-card m-2 rounded-lg flex-col  text-neutral-400 p-5 grow-0 text-xs lg:w-96 lg:text-sm  overflow-y-scroll scrollbar-hide
       border-r border-neutral-800 sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex space-y-4 ">
       <div className='mt-1 mb-5'>
         <SpotifyIcon />
@@ -92,11 +92,11 @@ function Sidebar() {
       </button>
       <hr className='border-t-[1px] border-gray-900' />
 
-      <section className="space-y-4 overflow-y-scroll scrollbar-hide">
+      <section className="space-y-4 overflow-y-scroll">
         {playlists?.map((playlist) => (
           <p
             key={playlist.id}
-            className='cursor-pointer hover:text-white lg:w-52 truncate'
+            className='cursor-pointer hover:text-white truncate'
             onClick={() => {
               setDisplay('playlist')
               setPLaylistID(playlist.id);
