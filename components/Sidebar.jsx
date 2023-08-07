@@ -1,3 +1,4 @@
+import { displayState } from '@/atoms/displayAtoms';
 import { playlistIdState } from '@/atoms/playlistAtoms';
 import useSpotify from '@/hooks/useSpotify';
 import {
@@ -9,16 +10,20 @@ import {
   PlusCircleIcon,
   RssIcon,
 } from '@heroicons/react/24/outline';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import SpotifyIcon from './SpotifyIcon';
 
-function Sidebar({ view, setView, setGlobalPlayListID }) {
+function Sidebar() {
   const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState([]);
   const [playlistID, setPLaylistID] = useRecoilState(playlistIdState);
+  const [display, setDisplay] = useRecoilState(displayState);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -36,7 +41,10 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
       </div>
       <button
         className='flex items-center space-x-2 hover:text-white'
-        onClick={() => signOut()}
+        onClick={() => {
+          localStorage.clear(); // middleware not working, wip data and redirect manually;
+          router.push('/login');
+        }}
       >
         <ArrowLeftOnRectangleIcon className="w-5 h-5" />
 
@@ -50,8 +58,8 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
 
       <button
         className={`flex items-center space-x-2 hover:text-white 
-        ${view === 'search' ? 'text-white' : null}`}
-        onClick={() => setView('search')}
+        ${display === 'search' && 'text-white'}`}
+        onClick={() => setDisplay('search')}
       >
         <MagnifyingGlassIcon className="w-5 h-5" />
         <p>Search</p>
@@ -59,8 +67,8 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
 
       <button
         className={`flex items-center space-x-2 hover:text-white 
-        ${view === 'library' ? 'text-white' : null}`}
-        onClick={() => setView('library')}
+        ${display === 'library' && 'text-white'}`}
+        onClick={() => setDisplay('library')}
       >
         <BuildingLibraryIcon className="w-5 h-5" />
         <p>Your Library</p>
@@ -89,7 +97,10 @@ function Sidebar({ view, setView, setGlobalPlayListID }) {
           <p
             key={playlist.id}
             className='cursor-pointer hover:text-white lg:w-52 truncate'
-            onClick={() => setPLaylistID(playlist.id)}
+            onClick={() => {
+              setDisplay('playlist')
+              setPLaylistID(playlist.id);
+            }}
           >{playlist.name}
           </p>
         ))}
